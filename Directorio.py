@@ -1,13 +1,23 @@
 import os
 import shutil
+from archivo import Archivo
 
 
 class Directorio:
+    def __init__(self, nombre):
+        self.ruta_base=None
+        self.nombre=nombre
+        self.archivos=[]
+
 # 1. Crear un archivo vacío
     def crear_archivo(self, nombre):
+
         ruta_completa = os.path.join(self.ruta_base, nombre)
+        archivo=Archivo(nombre,ruta_completa)
+        self.archivos.append(archivo)
         with open(ruta_completa, 'w') as f:
             print(f"Archivo '{nombre}' creado.")
+        
 
 # Listar archivos en un directorio
     def listar_archivos(self, nombre):
