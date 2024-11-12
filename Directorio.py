@@ -4,8 +4,8 @@ from archivo import Archivo
 
 
 class Directorio:
-    def __init__(self, nombre):
-        self.ruta_base=None
+    def __init__(self, nombre,  ruta_base="."):
+        self.ruta_base=ruta_base
         self.nombre=nombre
         self.archivos=[]
 
