@@ -82,15 +82,50 @@ def menu(rol):
         elif opcion == 3:
             print ("Opción 3 seleccionada")
 
-        elif opcion == 5: 
+        elif opcion== 4:
+
+            if verificar_permiso(rol,'listar'):
+                print("Opción 4 seleccionada")
+                ruta_temporal= input("Escriba la ruta en la que desea listar los directorios: ")
+                listar_directorios(ruta_temporal)
+
+
+    
+
+        elif opcion == 5 or opcion== 6: 
             
 
             if verificar_permiso(rol, 'mover'):
+                if opcion == 5 :
+                    print ("Opción 5 seleccionada")
+                else:
+                    print ("Opción 6 seleccionada")
 
-                print ("Opción 4 seleccionada")
-                ruta_temporal1= input("Escriba la ruta del elemento que desea mover")
-                ruta_temporal2= input("Escriba la ruta final a la que desea mmover el elemento")
+                ruta_temporal1= input("Escriba la ruta del elemento que desea mover: ")
+                ruta_temporal2= input("Escriba la ruta final a la que desea mover el elemento: ")
                 mover_elemento(ruta_temporal1,ruta_temporal2)
+
+
+
+        
+        elif opcion == 8 :
+
+            if verificar_permiso(rol, 'eliminar'):
+
+                print("Opción 8 seleccionada")
+
+                nombre_temporal= input("Ingrese el nombre del directorio a liminar")
+                ruta_temporal= input("ingrese la ruta del directorio que desea eliminar")
+                eliminar_directorio(nombre_temporal,ruta_temporal)
+
+        elif opcion == 10:
+
+            if verificar_permiso(rol, 'renombrar'):
+                print("Opción 10 seleccionada")
+                nombre_actual=input("Ingrese el nombre actual del directorio: ")
+                nuevo_nombre= input("Ingrese el nombre que desea colocar al directorio: ")
+                ruta_temporal=input("Ingrese la ruta del directorio que desea modificar: ")
+                renombrar_directorio(nombre_actual,nuevo_nombre,ruta_temporal)
                 
 
         else:
