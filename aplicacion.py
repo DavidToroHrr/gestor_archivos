@@ -4,7 +4,7 @@ from gestor_archivo import *
 
 def main():
     rol_usuario=crearUsuario()
-    print(rol_usuario)
+    # print(rol_usuario)
     menu(rol_usuario)
     
 
@@ -25,7 +25,7 @@ def crearUsuario():
                             "3: consultor\n"))
 
         if rol_usuario in roles:
-            print(f"¡Bienvenido!...{nombre_usuario}")
+            print(f"¡Bienvenido!...{nombre_usuario}. Eres {roles[rol_usuario]}")
             return roles[rol_usuario]
 
         else:
@@ -72,15 +72,25 @@ def menu(rol):
             
 
         elif opcion == 2:
+
             if verificar_permiso(rol,'crear'):
-                print ("Opción 2 seleccionada")
-                nombre_temporal = input("Escriba el nombre del nuevo directorio: ")
-                ruta_temporal = input("Escriba la ruta donde desea crear el directorio: ")
-                crear_directorio(nombre_temporal, ruta_temporal)  # Llamar a la función para crear el directorio
+              print ("Opción 2 seleccionada")
+              nombre_temporal = input("Escriba el nombre del nuevo directorio: ")
+              ruta_temporal = input("Escriba la ruta donde desea crear el directorio: ")
+              crear_directorio(nombre_temporal, ruta_temporal)  # Llamar a la función para crear el directorio
 
             
         elif opcion == 3:
             print ("Opción 3 seleccionada")
+
+            if verificar_permiso(rol,'listar'):
+                nombre_temporal=input("Ingrese el nombre del archivo: ")
+                ruta_temporal=input("Ingrese la ruta del archivo: ")
+
+                listar_archivos(nombre_temporal,ruta_temporal)
+            else:
+                print("no tiene permiso")
+                
 
         elif opcion== 4:
 
@@ -104,6 +114,18 @@ def menu(rol):
                 ruta_temporal1= input("Escriba la ruta del elemento que desea mover: ")
                 ruta_temporal2= input("Escriba la ruta final a la que desea mover el elemento: ")
                 mover_elemento(ruta_temporal1,ruta_temporal2)
+                
+                
+        elif opcion == 7:
+            print ("Opción 7 seleccionada")
+
+            if verificar_permiso(rol,'eliminar'):
+                nombre_temporal=input("Ingrese el nombre del archivo: ")
+                ruta_temporal=input("Ingrese la ruta del archivo: ") 
+                eliminar_archivo(nombre_temporal,ruta_temporal)
+
+            else:
+                print("no tiene permiso")
 
 
 
@@ -117,6 +139,26 @@ def menu(rol):
                 nombre_temporal= input("Ingrese el nombre del directorio a liminar")
                 ruta_temporal= input("ingrese la ruta del directorio que desea eliminar")
                 eliminar_directorio(nombre_temporal,ruta_temporal)
+                
+                
+                
+        elif opcion == 9:
+            print ("Opción 9 seleccionada")
+
+            if verificar_permiso(rol,'renombrar'):
+                nombre_temporal_actual=input("Ingrese el nombre del archivo: ")
+                nombre_temporal_nuevo=input("Ingrese el NUEVO nombre del archivo: ")
+                ruta_temporal=input("Ingrese la ruta del archivo: ") 
+
+                renombrar_archivo(nombre_temporal_actual,nombre_temporal_nuevo,ruta_temporal)
+
+            else:
+                print("no tiene permiso")
+
+
+        else:
+            print ("Opción no válida")
+            
 
         elif opcion == 10:
 
@@ -127,9 +169,17 @@ def menu(rol):
                 ruta_temporal=input("Ingrese la ruta del directorio que desea modificar: ")
                 renombrar_directorio(nombre_actual,nuevo_nombre,ruta_temporal)
                 
+            
 
-        else:
-            print ("Opción no válida")
+        
+
+
+
+        
+
+        
+        
+        
 
 
 if __name__ =="__main__":
