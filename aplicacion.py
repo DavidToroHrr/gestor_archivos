@@ -73,8 +73,19 @@ def menu(rol):
 
         elif opcion == 2:
             print ("Opción 2 seleccionada")
+
         elif opcion == 3:
             print ("Opción 3 seleccionada")
+
+            if verificar_permiso(rol,'listar'):
+                nombre_temporal=input("Ingrese el nombre del archivo: ")
+                ruta_temporal=input("Ingrese la ruta del archivo: ")
+
+                listar_archivos(nombre_temporal,ruta_temporal)
+            else:
+                print("no tiene permiso")
+
+
         else:
             print ("Opción no válida")
 
