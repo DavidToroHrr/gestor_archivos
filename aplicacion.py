@@ -4,7 +4,7 @@ from gestor_archivo import *
 
 def main():
     rol_usuario=crearUsuario()
-    print(rol_usuario)
+    # print(rol_usuario)
     menu(rol_usuario)
     
 
@@ -25,7 +25,7 @@ def crearUsuario():
                             "3: consultor\n"))
 
         if rol_usuario in roles:
-            print(f"¡Bienvenido!...{nombre_usuario}")
+            print(f"¡Bienvenido!...{nombre_usuario}. Eres {roles[rol_usuario]}")
             return roles[rol_usuario]
 
         else:
@@ -86,8 +86,35 @@ def menu(rol):
                 print("no tiene permiso")
 
 
+
+        elif opcion == 7:
+            print ("Opción 7 seleccionada")
+
+            if verificar_permiso(rol,'listar'):
+                nombre_temporal=input("Ingrese el nombre del archivo: ")
+                ruta_temporal=input("Ingrese la ruta del archivo: ") 
+                eliminar_archivo(nombre_temporal,ruta_temporal)
+
+            else:
+                print("no tiene permiso")
+
+        
+        elif opcion == 9:
+            print ("Opción 9 seleccionada")
+
+            if verificar_permiso(rol,'listar'):
+                nombre_temporal_actual=input("Ingrese el nombre del archivo: ")
+                nombre_temporal_nuevo=input("Ingrese el NUEVO nombre del archivo: ")
+                ruta_temporal=input("Ingrese la ruta del archivo: ") 
+
+                renombrar_archivo(nombre_temporal_actual,nombre_temporal_nuevo,ruta_temporal)
+
+            else:
+                print("no tiene permiso")
+
         else:
             print ("Opción no válida")
+        
 
 
 if __name__ =="__main__":
