@@ -90,7 +90,7 @@ def menu(rol):
         elif opcion == 7:
             print ("Opción 7 seleccionada")
 
-            if verificar_permiso(rol,'listar'):
+            if verificar_permiso(rol,'eliminar'):
                 nombre_temporal=input("Ingrese el nombre del archivo: ")
                 ruta_temporal=input("Ingrese la ruta del archivo: ") 
                 eliminar_archivo(nombre_temporal,ruta_temporal)
@@ -102,7 +102,7 @@ def menu(rol):
         elif opcion == 9:
             print ("Opción 9 seleccionada")
 
-            if verificar_permiso(rol,'listar'):
+            if verificar_permiso(rol,'renombrar'):
                 nombre_temporal_actual=input("Ingrese el nombre del archivo: ")
                 nombre_temporal_nuevo=input("Ingrese el NUEVO nombre del archivo: ")
                 ruta_temporal=input("Ingrese la ruta del archivo: ") 
