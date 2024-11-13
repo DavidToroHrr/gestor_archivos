@@ -72,13 +72,27 @@ def menu(rol):
             
 
         elif opcion == 2:
-            nombre_directorio = input("Escriba el nombre del nuevo directorio: ")
-            ruta_base = input("Escriba la ruta donde desea crear el directorio: ")
-            crear_directorio(nombre_directorio, ruta_base)  # Llamar a la función para crear el directorio
+            if verificar_permiso(rol,'crear'):
+                print ("Opción 2 seleccionada")
+                nombre_temporal = input("Escriba el nombre del nuevo directorio: ")
+                ruta_temporal = input("Escriba la ruta donde desea crear el directorio: ")
+                crear_directorio(nombre_temporal, ruta_temporal)  # Llamar a la función para crear el directorio
 
             
         elif opcion == 3:
             print ("Opción 3 seleccionada")
+
+        elif opcion == 5: 
+            
+
+            if verificar_permiso(rol, 'mover'):
+
+                print ("Opción 4 seleccionada")
+                ruta_temporal1= input("Escriba la ruta del elemento que desea mover")
+                ruta_temporal2= input("Escriba la ruta final a la que desea mmover el elemento")
+                mover_elemento(ruta_temporal1,ruta_temporal2)
+                
+
         else:
             print ("Opción no válida")
 

@@ -11,18 +11,10 @@ def crear_directorio(nombre, ruta_base):
 
 
 # Mover archivo o directorio
-def mover_elemento(origen, destino, ruta_base):
-    ruta_origen = os.path.join(ruta_base, origen)
-    ruta_destino = os.path.join(ruta_base, destino)
-    
-    # Verificar si el elemento de origen existe
-    if not os.path.exists(ruta_origen):
-        print(f"El elemento '{origen}' no existe.")
-        return
-    
+def mover_elemento(origen, destino):
     try:
         # Mover el elemento (archivo o directorio)
-        shutil.move(ruta_origen, ruta_destino)
+        shutil.move(origen, destino)
         print(f"Elemento '{origen}' movido a '{destino}' correctamente.")
     except Exception as e:
         print(f"Error al mover el elemento '{origen}': {e}")
