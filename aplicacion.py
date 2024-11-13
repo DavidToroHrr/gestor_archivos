@@ -5,7 +5,7 @@ from gestor_archivo import *
 def main():
     rol_usuario=crearUsuario()
     print(rol_usuario)
-    menu()
+    menu(rol_usuario)
     
 
 def crearUsuario():
@@ -20,13 +20,13 @@ def crearUsuario():
     
     while(bandera!=1):
         rol_usuario=int(input("\nAhora, elija su rol dentro de la aplicación: \n"
-                            "1: administrador \n"
-                            "2: director \n"
-                            "3: consultor \n"))
+                            "1: administrador\n"
+                            "2: director\n"
+                            "3: consultor\n"))
 
         if rol_usuario in roles:
             print(f"¡Bienvenido!...{nombre_usuario}")
-            return {roles[rol_usuario]}
+            return roles[rol_usuario]
 
         else:
             resultado='ERROR...El rol elegido no existe'
@@ -34,7 +34,7 @@ def crearUsuario():
 
         print(resultado)
 
-def menu():
+def menu(rol):
     opcion=int
     while (opcion!=0):
         
@@ -57,8 +57,18 @@ def menu():
         if opcion == 0:
             print ("Has seleccionado salir, hasta pronto...")
             return
+        
         if opcion == 1:
             print ("Opción 1 seleccionada")
+
+            if verificar_permiso(rol,'crear'):
+                nombre_temporal=input("Ingrese el nombre del archivo: ")
+                ruta_temporal=input("Ingrese la ruta del archivo: ")
+
+                crear_archivo(nombre_temporal,ruta_temporal)
+
+            else:
+                print("no tiene permiso")
             
 
         elif opcion == 2:
