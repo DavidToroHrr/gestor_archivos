@@ -1,12 +1,12 @@
-import gestor_usuario
-import gestor_archivo
+from gestor_usuario import *
+from gestor_archivo import *
 
 
 def main():
     rol_usuario=crearUsuario()
     print(rol_usuario)
     menu()
-
+    
 
 def crearUsuario():
 
