@@ -62,7 +62,11 @@ def menu():
             
 
         elif opcion == 2:
-            print ("Opción 2 seleccionada")
+            nombre_directorio = input("Escriba el nombre del nuevo directorio: ")
+            ruta_base = input("Escriba la ruta donde desea crear el directorio: ")
+            crear_directorio(nombre_directorio, ruta_base)  # Llamar a la función para crear el directorio
+
+            
         elif opcion == 3:
             print ("Opción 3 seleccionada")
         else:
