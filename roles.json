@@ -1,0 +1,7 @@
+{
+    "roles": {
+        "administrador": ["crear", "listar", "mover", "eliminar", "renombrar"],
+        "director_proyecto": ["crear", "listar", "renombrar"],
+        "consultor": ["listar"]
+    }
+}

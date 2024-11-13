@@ -1,31 +1,33 @@
-from archivogestor import ArchivoGestor
-inst_gestor=ArchivoGestor()
-
-
-from directorio import Directorio
-inst_directorio=Directorio(None)
-
-from proyecto import Proyecto
-inst_proyecto=Proyecto(nombre=None)
+import gestor_usuario
+import gestor_archivo
 
 
 def main():
-    crearUsuario()
+    rol_usuario=crearUsuario()
+    print(rol_usuario)
     menu()
 
 
 def crearUsuario():
 
-    
+    roles = {
+            1: "administrador",
+            2: "director",
+            3: "consultor"
+        }
     nombre_usuario=input("Bienvenido a la empresa los archivos seguros, escriba su nombre: ")
     bandera=0
     
     while(bandera!=1):
-        rol_usuario=input("\nAhora, elija su rol dentro de la aplicación: ")
-        if rol_usuario in inst_gestor.roles_permisos:
-            resultado =inst_gestor.agregar_usuario(nombre_usuario,rol_usuario)
-            
-            bandera=1
+        rol_usuario=int(input("\nAhora, elija su rol dentro de la aplicación: \n"
+                            "1: administrador \n"
+                            "2: director \n"
+                            "3: consultor \n"))
+
+        if rol_usuario in roles:
+            print(f"¡Bienvenido!...{nombre_usuario}")
+            return {roles[rol_usuario]}
+
         else:
             resultado='ERROR...El rol elegido no existe'
             bandera=0
@@ -37,7 +39,7 @@ def menu():
     while (opcion!=0):
         
         print(
-
+            "0: Salir\n"
             "1: crear archivos\n"
             "2: crear directorios\n"         
             "3: listar archivos\n"

@@ -3,32 +3,28 @@ import shutil
 
 class Proyecto:
 
-    def __init__(self, nombre, ruta_base="."):
-        self.nombre = nombre           # Nombre del proyecto
-        self.ruta_base = ruta_base
-
     # Crear directorio
-    def crear_directorio(self, nombre):
-        ruta_completa = os.path.join(self.ruta_base, nombre)
+    def crear_directorio(self, nombre, ruta_base):
+        ruta_completa = os.path.join(ruta_base, nombre)
         # Crear el directorio en el sistema de archivos
         os.makedirs(ruta_completa, exist_ok=True)
         print(f"Directorio '{nombre}' creado correctamente.")
 
     # Función para listar directorios
-    def listar_directorios(self):
+    def listar_directorios(self, ruta_base):
         try:
-            elementos = os.listdir(self.ruta_base)
-            print(f"Directorios en el proyecto '{self.nombre}':")
+            elementos = os.listdir(ruta_base)
+            print(f"Directorios en el proyecto:")
             for elemento in elementos:
-                if os.path.isdir(os.path.join(self.ruta_base, elemento)):
+                if os.path.isdir(os.path.join(ruta_base, elemento)):
                     print(f"- {elemento}")
         except Exception as e:
-            print(f"Error al listar los directorios en '{self.ruta_base}': {e}")
+            print(f"Error al listar los directorios en '{ruta_base}': {e}")
 
     # Mover archivo o directorio
-    def mover_elemento(self, origen, destino):
-        ruta_origen = os.path.join(self.ruta_base, origen)
-        ruta_destino = os.path.join(self.ruta_base, destino)
+    def mover_elemento(self, origen, destino, ruta_base):
+        ruta_origen = os.path.join(ruta_base, origen)
+        ruta_destino = os.path.join(ruta_base, destino)
         
         # Verificar si el directorio de origen existe
         if not os.path.isdir(ruta_origen):
@@ -42,8 +38,8 @@ class Proyecto:
         except Exception as e:
             print(f"Error al mover el elemento '{origen}': {e}")
 
-    def eliminar_directorio(self, nombre):
-        ruta_completa = os.path.join(self.ruta_base, nombre)
+    def eliminar_directorio(self, nombre, ruta_base):
+        ruta_completa = os.path.join(ruta_base, nombre)
         if os.path.isdir(ruta_completa):
             try:
                 shutil.rmtree(ruta_completa)  # Eliminar el directorio en el sistema de archivos
@@ -53,9 +49,9 @@ class Proyecto:
         else:
             print(f"El directorio '{nombre}' no se encuentra en el proyecto.")
 
-    def renombrar_directorio(self, nombre_actual, nuevo_nombre):
-        ruta_actual = os.path.join(self.ruta_base, nombre_actual)
-        nueva_ruta = os.path.join(self.ruta_base, nuevo_nombre)
+    def renombrar_directorio(self, nombre_actual, nuevo_nombre, ruta_base):
+        ruta_actual = os.path.join(ruta_base, nombre_actual)
+        nueva_ruta = os.path.join(ruta_base, nuevo_nombre)
         
         # Verificar si el directorio existe
         if not os.path.isdir(ruta_actual):

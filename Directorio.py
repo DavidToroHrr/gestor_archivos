@@ -4,24 +4,24 @@ from archivo import Archivo
 
 
 class Directorio:
-    def __init__(self, nombre,  ruta_base="."):
-        self.ruta_base=ruta_base
-        self.nombre=nombre
-        self.archivos=[]
+    # def __init__(self, nombre,  ruta_base="."):
+    #     self.ruta_base=ruta_base
+    #     self.nombre=nombre
+    #     self.archivos=[]
 
 # 1. Crear un archivo vacío
-    def crear_archivo(self, nombre):
+    def crear_archivo(self, nombre,ruta_base):
 
-        ruta_completa = os.path.join(self.ruta_base, nombre)
+        ruta_completa = os.path.join(ruta_base, nombre)
         archivo=Archivo(nombre,ruta_completa)
-        self.archivos.append(archivo)
+        #self.archivos.append(archivo)
         with open(ruta_completa, 'w') as f:
             print(f"Archivo '{nombre}' creado.")
         
 
 # Listar archivos en un directorio
-    def listar_archivos(self, nombre):
-        ruta_completa = os.path.join(self.ruta_base, nombre)
+    def listar_archivos(self, nombre,ruta_base):
+        ruta_completa = os.path.join(ruta_base, nombre)
         try:
             archivos = os.listdir(ruta_completa)
             print(f"Archivos en el directorio '{nombre}':")
@@ -32,9 +32,9 @@ class Directorio:
 
 
 # Mover archivo o directorio
-    def mover_elemento(self, origen, destino):
-        ruta_origen = os.path.join(self.ruta_base, origen)
-        ruta_destino = os.path.join(self.ruta_base, destino)
+    def mover_elemento(self, origen, destino,ruta_base):
+        ruta_origen = os.path.join(ruta_base, origen)
+        ruta_destino = os.path.join(ruta_base, destino)
         try:
             shutil.move(ruta_origen, ruta_destino)
             print(f"Elemento '{origen}' movido a '{destino}' correctamente.")
@@ -44,8 +44,8 @@ class Directorio:
 
 
 # 9. Eliminar archivo
-    def eliminar_archivo(self, nombre):
-        ruta_completa = os.path.join(self.ruta_base, nombre)
+    def eliminar_archivo(self, nombre,ruta_base):
+        ruta_completa = os.path.join(ruta_base, nombre)
         try:
             os.remove(ruta_completa)
             print(f"Archivo '{nombre}' eliminado.")
@@ -54,9 +54,9 @@ class Directorio:
 
 
 # 8. Renombrar archivo
-    def renombrar_archivo(self, nombre_actual, nuevo_nombre):
-        ruta_actual = os.path.join(self.ruta_base, nombre_actual)
-        nueva_ruta = os.path.join(self.ruta_base, nuevo_nombre)
+    def renombrar_archivo(self, nombre_actual, nuevo_nombre,ruta_base):
+        ruta_actual = os.path.join(ruta_base, nombre_actual)
+        nueva_ruta = os.path.join(ruta_base, nuevo_nombre)
         try:
             os.rename(ruta_actual, nueva_ruta)
             print(f"Archivo renombrado de '{nombre_actual}' a '{nuevo_nombre}'.")

@@ -16,7 +16,7 @@ class ArchivoGestor:
     
     def agregar_usuario(self, usuario, rol):
         self.usuarios[usuario] = rol
-        print(f"Usuario '{usuario}' agregado con rol '{rol}'.")
+        return f"Usuario '{usuario}' agregado con rol '{rol}'."
 
     
 
