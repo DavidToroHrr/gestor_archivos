@@ -68,7 +68,7 @@ def listar_archivos(nombre,ruta_base):
         for archivo in archivos:
             arreglo_archivos.append(archivo)
 
-        return arreglo_archivos
+        return (f"los archivos son: {arreglo_archivos}")
     
     except Exception as e:
         return(f"Error al listar los archivos en '{nombre}': {e}")
@@ -87,7 +87,7 @@ def listar_directorios(ruta_base):
         for directorio in directorios:
             arreglo_directorios.append(directorio)
 
-        return arreglo_directorios
+        return (f"los directorios son: {arreglo_directorios}")
     except Exception as e:
         return(f"Error al listar los directorios en '{ruta_base}': {e}")
 
@@ -147,7 +147,7 @@ def renombrar_archivo(nombre_actual, nuevo_nombre,ruta_base):
     nueva_ruta = os.path.join(ruta_base, nuevo_nombre)
 
     if not validar_archivo_existe(ruta_actual):  
-        return("Error, el directorio que buscas renombrar no existe")
+        return("Error, el archivo que buscas renombrar no existe")
 
     try:
         os.rename(ruta_actual, nueva_ruta)

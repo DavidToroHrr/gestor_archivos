@@ -77,7 +77,11 @@ def menu(rol):
                 print ("Opción 2 seleccionada")
                 nombre_temporal = input("Escriba el nombre del nuevo directorio: ")
                 ruta_temporal = input("Escriba la ruta donde desea crear el directorio: ")
-                crear_directorio(nombre_temporal, ruta_temporal)  # Llamar a la función para crear el directorio
+                resultado=crear_directorio(nombre_temporal, ruta_temporal)  # Llamar a la función para crear el directorio
+                print(resultado)
+
+            else:
+                print("no tiene permiso")
     
         elif opcion == 3:
             print ("Opción 3 seleccionada")
@@ -87,16 +91,19 @@ def menu(rol):
                 ruta_temporal=input("Ingrese la ruta del directorio: ")
 
                 arreglo_archivos=listar_archivos(nombre_temporal,ruta_temporal)
-                print(f"los archivos son :{arreglo_archivos}")
-            else:
-                print("no tiene permiso")
+                print(arreglo_archivos)
+            
                 
         elif opcion== 4:
 
             if verificar_permiso(rol,'listar'):
                 print("Opción 4 seleccionada")
                 ruta_temporal= input("Escriba la ruta en la que desea listar los directorios: ")
-                listar_directorios(ruta_temporal)
+                arreglo_directorios=listar_directorios(ruta_temporal)
+                print(arreglo_directorios)
+
+
+            
 
         elif opcion == 5 or opcion== 6: 
             
@@ -109,7 +116,12 @@ def menu(rol):
 
                 ruta_temporal1= input("Escriba la ruta del elemento que desea mover: ")
                 ruta_temporal2= input("Escriba la ruta final a la que desea mover el elemento: ")
-                mover_elemento(ruta_temporal1,ruta_temporal2)
+                resultado=mover_elemento(ruta_temporal1,ruta_temporal2)
+                print(resultado)
+
+
+            else:
+                print("no tiene permiso")
                 
                 
         elif opcion == 7:
@@ -118,7 +130,8 @@ def menu(rol):
             if verificar_permiso(rol,'eliminar'):
                 nombre_temporal=input("Ingrese el nombre del archivo: ")
                 ruta_temporal=input("Ingrese la ruta del archivo: ") 
-                eliminar_archivo(nombre_temporal,ruta_temporal)
+                resultado=eliminar_archivo(nombre_temporal,ruta_temporal)
+                print(resultado)
 
             else:
                 print("no tiene permiso")
@@ -129,9 +142,13 @@ def menu(rol):
 
                 print("Opción 8 seleccionada")
 
-                nombre_temporal= input("Ingrese el nombre del directorio a liminar")
-                ruta_temporal= input("ingrese la ruta del directorio que desea eliminar")
-                eliminar_directorio(nombre_temporal,ruta_temporal)
+                nombre_temporal= input("Ingrese el nombre del directorio a eliminar: ")
+                ruta_temporal= input("ingrese la ruta del directorio que desea eliminar: ")
+                resultado=eliminar_directorio(nombre_temporal,ruta_temporal)
+                print(resultado)
+
+            else:
+                print("no tiene permiso")
 
         elif opcion == 9:
             print ("Opción 9 seleccionada")
@@ -141,7 +158,8 @@ def menu(rol):
                 nombre_temporal_nuevo=input("Ingrese el NUEVO nombre del archivo: ")
                 ruta_temporal=input("Ingrese la ruta del archivo: ") 
 
-                renombrar_archivo(nombre_temporal_actual,nombre_temporal_nuevo,ruta_temporal)
+                resultado=renombrar_archivo(nombre_temporal_actual,nombre_temporal_nuevo,ruta_temporal)
+                print(resultado)
 
             else:
                 print("no tiene permiso")
@@ -153,7 +171,11 @@ def menu(rol):
                 nombre_actual=input("Ingrese el nombre actual del directorio: ")
                 nuevo_nombre= input("Ingrese el nombre que desea colocar al directorio: ")
                 ruta_temporal=input("Ingrese la ruta del directorio que desea modificar: ")
-                renombrar_directorio(nombre_actual,nuevo_nombre,ruta_temporal)
+                resultado=renombrar_directorio(nombre_actual,nuevo_nombre,ruta_temporal)
+                print(resultado)
+
+            else:
+                print ("no tiene permiso")
                 
             
 
