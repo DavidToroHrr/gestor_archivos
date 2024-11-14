@@ -53,7 +53,7 @@ def menu(rol):
             )
         
         opcion = int(input("Selecciona una opción (0-10):"))
-
+        
         if opcion == 0:
             print ("Has seleccionado salir, hasta pronto...")
             return
@@ -65,42 +65,38 @@ def menu(rol):
                 nombre_temporal=input("Ingrese el nombre del archivo: ")
                 ruta_temporal=input("Ingrese la ruta del archivo: ")
 
-                crear_archivo(nombre_temporal,ruta_temporal)
+                resultado=crear_archivo(nombre_temporal,ruta_temporal)
+                print(resultado)
 
             else:
                 print("no tiene permiso")
             
-
         elif opcion == 2:
 
             if verificar_permiso(rol,'crear'):
-              print ("Opción 2 seleccionada")
-              nombre_temporal = input("Escriba el nombre del nuevo directorio: ")
-              ruta_temporal = input("Escriba la ruta donde desea crear el directorio: ")
-              crear_directorio(nombre_temporal, ruta_temporal)  # Llamar a la función para crear el directorio
-
-            
+                print ("Opción 2 seleccionada")
+                nombre_temporal = input("Escriba el nombre del nuevo directorio: ")
+                ruta_temporal = input("Escriba la ruta donde desea crear el directorio: ")
+                crear_directorio(nombre_temporal, ruta_temporal)  # Llamar a la función para crear el directorio
+    
         elif opcion == 3:
             print ("Opción 3 seleccionada")
 
             if verificar_permiso(rol,'listar'):
-                nombre_temporal=input("Ingrese el nombre del archivo: ")
-                ruta_temporal=input("Ingrese la ruta del archivo: ")
+                nombre_temporal=input("Ingrese el nombre del directorio: ")
+                ruta_temporal=input("Ingrese la ruta del directorio: ")
 
-                listar_archivos(nombre_temporal,ruta_temporal)
+                arreglo_archivos=listar_archivos(nombre_temporal,ruta_temporal)
+                print(f"los archivos son :{arreglo_archivos}")
             else:
                 print("no tiene permiso")
                 
-
         elif opcion== 4:
 
             if verificar_permiso(rol,'listar'):
                 print("Opción 4 seleccionada")
                 ruta_temporal= input("Escriba la ruta en la que desea listar los directorios: ")
                 listar_directorios(ruta_temporal)
-
-
-    
 
         elif opcion == 5 or opcion== 6: 
             
@@ -127,9 +123,6 @@ def menu(rol):
             else:
                 print("no tiene permiso")
 
-
-
-        
         elif opcion == 8 :
 
             if verificar_permiso(rol, 'eliminar'):
@@ -139,9 +132,7 @@ def menu(rol):
                 nombre_temporal= input("Ingrese el nombre del directorio a liminar")
                 ruta_temporal= input("ingrese la ruta del directorio que desea eliminar")
                 eliminar_directorio(nombre_temporal,ruta_temporal)
-                
-                
-                
+
         elif opcion == 9:
             print ("Opción 9 seleccionada")
 
@@ -155,11 +146,6 @@ def menu(rol):
             else:
                 print("no tiene permiso")
 
-
-        else:
-            print ("Opción no válida")
-            
-
         elif opcion == 10:
 
             if verificar_permiso(rol, 'renombrar'):
@@ -171,16 +157,8 @@ def menu(rol):
                 
             
 
-        
-
-
-
-        
-
-        
-        
-        
-
+        else:
+            print ("Opción no válida...Elija una nuevamente")
 
 if __name__ =="__main__":
     main()
