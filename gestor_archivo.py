@@ -8,6 +8,8 @@ def crear_directorio(nombre, ruta_base):
     if not validar_directorio_existe(ruta_base):
         return(f"Error: La ruta base '{ruta_base}' no existe.")
     
+    elif validar_directorio_existe(ruta_completa):
+        return(f"Error, el directorio {ruta_completa} ya existe y no se puede crear de nuevo.")
     try:
         # Crear el directorio en el sistema de archivos
         os.makedirs(ruta_completa, exist_ok=True)
@@ -17,11 +19,32 @@ def crear_directorio(nombre, ruta_base):
         return (f"Error al crear el directorio '{nombre}': {e}.")
 
 def crear_archivo(nombre, ruta_base):
+    """
+    Crea un archivo en una ruta especificada, en donde se le puede asignar cualquier nombre a determinado archivo
+    
+    Autor(es):
+    - David Esteban Toro Herrera
+    -Thomas Alejandro Toro Herrera
+
+    Parámetros:
+    nombre (str): Indica el nombre que tendrá el archivo
+    ruta_base (str): Indica los directorios en los cuales estará almacenado dicho archivo
+
+    Retorna:
+    str: Un mensaje que nos indica el resultado de la operación... Es posible que se retorne un mensaje de éxito o error
+
+    Excepciones:
+
+    """
+    ruta_completa = os.path.join(ruta_base, nombre)
     # Validar el nombre del archivo
+
     if not nombre or not isinstance(nombre, str):
         return("El nombre del archivo no es válido.")
-        
-    ruta_completa = os.path.join(ruta_base, nombre)
+
+    elif validar_archivo_existe(ruta_completa):
+        return(f"Error, el directorio {ruta_completa} ya existe y no se puede crear de nuevo.")
+
 
     if not validar_directorio_existe(ruta_base):
             return(f"Error: La ruta base '{ruta_base}' no existe.")
@@ -51,27 +74,43 @@ def mover_elemento(origen, destino):
     except Exception as e:
         print(f"Error al mover el elemento : {e}")
 
-
 # Listar archivos en un directorio
-def listar_archivos(nombre,ruta_base):
+def listar_archivos(ruta_base):
+    """
+    Lista los archivos en una ruta especificada, en donde se realiza un filtrado especial para ver solamante los archivos
+    en determinado directorio
+    
+    Autor(es):
+    - David Esteban Toro Herrera
+    -Thomas Alejandro Toro Herrera
+
+    Parámetros:
+    ruta_base (str): Indica los directorios en los cuales se busca listar los archivos
+
+    Retorna:
+    str: Un mensaje que nos indica el resultado de la operación... Es posible que se retorne un mensaje de éxito o error
+
+    Excepciones:
+
+    """
     arreglo_archivos=[]
 
-    ruta_completa = os.path.join(ruta_base, nombre)
-
-    if not validar_directorio_existe(ruta_completa):
-        return (f"Error: La ruta '{ruta_completa}' no existe.")
+    if not validar_directorio_existe(ruta_base):
+        return (f"Error: La ruta '{ruta_base}' no existe.")
 
     try:
         #SE HACE EL FILTRADO CORRESPONDIENTE DE SOLAMETE LOS ARCHIVOS
-        archivos = [f for f in os.listdir(ruta_completa) if os.path.isfile(os.path.join(ruta_completa, f))]
-
+        #se recorre el directorio con los elementos f,y se filtran los elementos de tal manera
+        #de que si cumplen con la condición de ser archivos se guardan en el arreglo de "archivos"
+        archivos = [f for f in os.listdir(ruta_base) if os.path.isfile(os.path.join(ruta_base, f))]
+        
         for archivo in archivos:
             arreglo_archivos.append(archivo)
 
         return (f"los archivos son: {arreglo_archivos}")
     
     except Exception as e:
-        return(f"Error al listar los archivos en '{nombre}': {e}")
+        return(f"Error al listar los archivos en '{ruta_base}': {e}")
 
 # Función para listar directorios
 def listar_directorios(ruta_base):
@@ -91,30 +130,25 @@ def listar_directorios(ruta_base):
     except Exception as e:
         return(f"Error al listar los directorios en '{ruta_base}': {e}")
 
-
-####FUNCION DE LISTAR GENERALIZADA#######
-# def listar(ruta,tipo):
-#     arreglo_elementos=[]
-
-#     try:
-#         if tipo==0:
-#             elementos= [f for f in os.listdir(ruta) if os.path.isdir(os.path.join(ruta, f))]
-
-#         elif tipo ==1:
-#             elementos = [f for f in os.listdir(ruta) if os.path.isfile(os.path.join(ruta, f))]
-
-#             for elemento in elementos:
-#                 arreglo_elementos.append(elemento)
-
-#     except Exception as e:
-#         return(f"Error al listar los directorios en '{ruta}': {e}")
-
-
-
-
-
 # 9. Eliminar archivo
 def eliminar_archivo(nombre,ruta_base):
+    """
+    Elimina un archivo en una ruta especificada
+    
+    Autor(es):
+    - David Esteban Toro Herrera
+    -Thomas Alejandro Toro Herrera
+
+    Parámetros:
+    nombre (str): Indica el nombre que tendrá el archivo
+    ruta_base (str): Indica los directorios en los cuales estará almacenado dicho archivo
+
+    Retorna:
+    str: Un mensaje que nos indica el resultado de la operación... Es posible que se retorne un mensaje de éxito o error
+
+    Excepciones:
+
+    """
     ruta_completa = os.path.join(ruta_base, nombre)
 
     if not validar_archivo_existe(ruta_completa):
@@ -138,11 +172,28 @@ def eliminar_directorio(nombre, ruta_base):
 
     except Exception as e:
         return(f"Error al eliminar el directorio '{nombre}': {e}")
-    
-
 
 # 8. Renombrar archivo
-def renombrar_archivo(nombre_actual, nuevo_nombre,ruta_base):
+def renombrar_archivo(nombre_actual,nuevo_nombre,ruta_base):
+    """
+    Renombra un archivo en una ruta especificada
+    
+    Autor(es):
+    - David Esteban Toro Herrera
+    -Thomas Alejandro Toro Herrera
+
+    Parámetros:
+    nombre_actual (str): Indica el nombre que tiene
+    nuevo_nombre (str): Indica el nuevo nombre que tendrá el archivo
+    ruta_base (str): Indica los directorios en los cuales estará almacenado dicho archivo. Es la misma ruta para ambos nombres
+    porque lo que se busca hacer es renombrar un mismo archivo
+
+    Retorna:
+    str: Un mensaje que nos indica el resultado de la operación... Es posible que se retorne un mensaje de éxito o error
+
+    Excepciones:
+
+    """
     ruta_actual = os.path.join(ruta_base, nombre_actual)
     nueva_ruta = os.path.join(ruta_base, nuevo_nombre)
 
@@ -173,7 +224,7 @@ def renombrar_directorio(nombre_actual, nuevo_nombre, ruta_base):
         return(f"Error al renombrar el directorio '{nombre_actual}': {e}")
 
 
-#####FUNCIONES PARA VERIFICAR LA EXISTENCIA DE ARCHIVOS Y DIRECTORIOS###
+#####FUNCIONES PARA VERIFICAR LA EXISTENCIA DE ARCHIVOS Y DIRECTORIOS########
 
 def validar_archivo_existe(ruta_archivo):
     """Valida si un archivo existe."""
