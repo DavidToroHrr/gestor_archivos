@@ -1,14 +1,48 @@
+""" 
+aplicacion.py
+
+ Sistema de Gestión de Archivos y Directorios con Control de Roles
+ Autores: 
+       - David Toro
+       - Thomas Toro
+ Descripción:
+ Este script implementa un sistema interactivo que permite gestionar archivos y directorios,
+ según los permisos asignados a los roles de usuario (administrador, director, consultor).
+ Las funcionalidades incluyen crear, listar, mover, eliminar y renombrar tanto archivos como directorios.
+ Los permisos se obtienen del archivo roles.json.
+
+
+"""
 from gestor_usuario import *
 from gestor_archivo import *
 
-
 def main():
+    """
+    Función principal que inicia el sistema.
+    Crea un usuario, asigna su rol y lo redirige al menú de operaciones según sus permisos.
+    
+    Autores: 
+        - David Toro
+        - Thomas ToroAutores: 
+    """
+
     rol_usuario=crearUsuario()
     # print(rol_usuario)
     menu(rol_usuario)
     
 
 def crearUsuario():
+    """
+    Crea un usuario solicitando su nombre y rol.
+    Los roles disponibles son: administrador, director y consultor.
+    
+    Retorno:
+        str: El rol del usuario ('administrador', 'director', 'consultor').
+    
+    Autores: 
+        - David Toro
+        - Thomas Toro
+    """
 
     roles = {
             1: "administrador",
@@ -35,6 +69,18 @@ def crearUsuario():
         print(resultado)
 
 def menu(rol):
+
+    """
+    Muestra el menú de operaciones disponibles según el rol del usuario.
+    El usuario puede crear, listar, mover, eliminar y renombrar archivos y directorios.
+    
+    Parámetros:
+        rol (str): Rol del usuario que define los permisos ('administrador', 'director', 'consultor').
+    
+    Autores: 
+        - David Toro
+        - Thomas Toro
+    """
     opcion=int
     while (opcion!=0):
         
