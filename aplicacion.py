@@ -87,10 +87,10 @@ def menu(rol):
             print ("Opción 3 seleccionada")
 
             if verificar_permiso(rol,'listar'):
-                nombre_temporal=input("Ingrese el nombre del directorio: ")
+                # nombre_temporal=input("Ingrese el nombre del directorio: ")
                 ruta_temporal=input("Ingrese la ruta del directorio: ")
 
-                arreglo_archivos=listar_archivos(nombre_temporal,ruta_temporal)
+                arreglo_archivos=listar_archivos(ruta_temporal)
                 print(arreglo_archivos)
             
                 
