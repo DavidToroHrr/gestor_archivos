@@ -154,9 +154,9 @@ def listar_archivos(ruta_base):
     Excepciones:
 
     - Si la ruta base no existe, devuelve el mensaje:
-      Error: La ruta '<ruta>' no existe.
+    Error: La ruta '<ruta>' no existe.
     - Si ocurre cualquier otro error al intentar listar los archivos (por ejemplo, problemas de permisos 
-      para acceder a la ruta o directorio), se captura la excepción general y se devuelve el mensaje de error detallado.
+    para acceder a la ruta o directorio), se captura la excepción general y se devuelve el mensaje de error detallado.
 
 
     """

@@ -15,25 +15,6 @@ Autores:
 
 import json
 
-def tiene_permiso(self, accion):
-        
-        """
-        Verifica si un usuario tiene permiso para realizar una acción específica basada en sus permisos asignados.
-        
-        Parámetros:
-            self (objeto): Objeto que contiene la lista de permisos del usuario (por ejemplo, ['crear', 'listar']).
-            accion (str): Acción que se desea verificar (por ejemplo, 'crear', 'eliminar').
-
-        Retorno:
-            bool: Retorna True si el usuario tiene el permiso para la acción, de lo contrario, False.
-
-        Autores: 
-        - David Toro
-        - Thomas Toro
-        
-        """
-        return accion in self.permisos
-
 def cargar_roles():
 
     """
