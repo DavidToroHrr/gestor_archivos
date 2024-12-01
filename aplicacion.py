@@ -1,232 +1,131 @@
-""" 
-aplicacion.py
-
- Sistema de Gestión de Archivos y Directorios con Control de Roles
- Autores: 
-       - David Toro
-       - Thomas Toro
- Descripción:
- Este script implementa un sistema interactivo que permite gestionar archivos y directorios,
- según los permisos asignados a los roles de usuario (administrador, director, consultor).
- Las funcionalidades incluyen crear, listar, mover, eliminar y renombrar tanto archivos como directorios.
- Los permisos se obtienen del archivo roles.json.
-
-
-"""
+import tkinter as tk
+from tkinter import ttk, messagebox
 from gestor_usuario import *
 from gestor_archivo import *
 
-def main():
-    """
-    Función principal que inicia el sistema.
-    Crea un usuario, asigna su rol y lo redirige al menú de operaciones según sus permisos.
-    
-    Autores: 
-        - David Toro
-        - Thomas ToroAutores: 
-    """
+class FileManagementApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Sistema de Gestión de Archivos y Directorios")
+        self.root.geometry("600x400")
+        self.rol_usuario = None
 
-    rol_usuario=crearUsuario()
-    # print(rol_usuario)
-    menu(rol_usuario)
-    
+        self.setup_login()
 
-def crearUsuario():
-    """
-    Crea un usuario solicitando su nombre y rol.
-    Los roles disponibles son: administrador, director y consultor.
-    
-    Retorno:
-        str: El rol del usuario ('administrador', 'director', 'consultor').
-    
-    Autores: 
-        - David Toro
-        - Thomas Toro
-    """
+    def setup_login(self):
+        """Configura la pantalla de inicio de sesión para ingresar nombre y rol."""
+        self.clear_frame()
 
-    roles = {
-            1: "administrador",
-            2: "director",
-            3: "consultor"
-        }
-    nombre_usuario=input("Bienvenido a la empresa los archivos seguros, escriba su nombre: ")
-    bandera=0
-    
-    while(bandera!=1):
-        rol_usuario=int(input("\nAhora, elija su rol dentro de la aplicación: \n"
-                            "1: administrador\n"
-                            "2: director\n"
-                            "3: consultor\n"))
+        tk.Label(self.root, text="Bienvenido a los Archivos Seguros", font=("Arial", 16)).pack(pady=10)
+        tk.Label(self.root, text="Ingrese su nombre:").pack(pady=5)
+        self.nombre_entry = tk.Entry(self.root)
+        self.nombre_entry.pack()
 
-        if rol_usuario in roles:
-            print(f"¡Bienvenido!...{nombre_usuario}. Eres {roles[rol_usuario]}")
-            return roles[rol_usuario]
+        tk.Label(self.root, text="Seleccione su rol:").pack(pady=5)
+        self.rol_var = tk.StringVar(value="administrador")
+        ttk.Combobox(self.root, textvariable=self.rol_var, values=["administrador", "director", "consultor"]).pack()
 
+        tk.Button(self.root, text="Ingresar", command=self.login).pack(pady=20)
+
+    def login(self):
+        """Inicia sesión del usuario y configura el menú según el rol."""
+        nombre = self.nombre_entry.get()
+        rol = self.rol_var.get()
+
+        if nombre and rol:
+            self.rol_usuario = rol
+            messagebox.showinfo("Bienvenido", f"¡Hola, {nombre}! Eres {rol}.")
+            self.setup_menu()
         else:
-            resultado='ERROR...El rol elegido no existe'
-            bandera=0
+            messagebox.showerror("Error", "Por favor ingrese su nombre y seleccione un rol.")
 
-        print(resultado)
+    def setup_menu(self):
+        """Configura el menú principal basado en el rol del usuario."""
+        self.clear_frame()
 
-def menu(rol):
+        tk.Label(self.root, text="Menú Principal", font=("Arial", 16)).pack(pady=10)
 
-    """
-    Muestra el menú de operaciones disponibles según el rol del usuario.
-    El usuario puede crear, listar, mover, eliminar y renombrar archivos y directorios.
-    
-    Parámetros:
-        rol (str): Rol del usuario que define los permisos ('administrador', 'director', 'consultor').
-    
-    Autores: 
-        - David Toro
-        - Thomas Toro
-    """
-    opcion=int
-    while (opcion!=0):
-        
-        print(
-            "0: Salir\n"
-            "1: crear archivos\n"
-            "2: crear directorios\n"         
-            "3: listar archivos\n"
-            "4: listar directorios\n"         
-            "5: mover archivos\n"
-            "6: mover directorios\n"          
-            "7: eliminar archivos\n"
-            "8: eliminar directorios\n"
-            "9: renombrar archivos\n"
-            "10: renombrar directorios\n"
-            )
-        
-        opcion = int(input("Selecciona una opción (0-10):"))
-        
-        if opcion == 0:
-            print ("Has seleccionado salir, hasta pronto...")
+        options = [
+            ("Crear Archivos", self.crear_archivo),
+            ("Crear Directorios", self.crear_directorio),
+            ("Listar Archivos", self.listar_archivos),
+            ("Listar Directorios", self.listar_directorios),
+            ("Mover Archivos", self.mover_elemento),
+            ("Mover Directorios", self.mover_elemento),
+            ("Eliminar Archivos", self.eliminar_archivo),
+            ("Eliminar Directorios", self.eliminar_directorio),
+            ("Renombrar Archivos", self.renombrar_archivo),
+            ("Renombrar Directorios", self.renombrar_directorio),
+        ]
+
+        for i, (text, command) in enumerate(options):
+            tk.Button(self.root, text=text, width=30, command=command).pack(pady=5)
+
+        tk.Button(self.root, text="Salir", command=self.root.quit).pack(pady=10)
+
+    def crear_archivo(self):
+        self.operation_prompt("Crear Archivo", "crear", crear_archivo)
+
+    def crear_directorio(self):
+        self.operation_prompt("Crear Directorio", "crear", crear_directorio)
+
+    def listar_archivos(self):
+        self.operation_prompt("Listar Archivos", "listar", listar_archivos)
+
+    def listar_directorios(self):
+        self.operation_prompt("Listar Directorios", "listar", listar_directorios)
+
+    def mover_elemento(self):
+        self.operation_prompt("Mover Elemento", "mover", mover_elemento)
+
+    def eliminar_archivo(self):
+        self.operation_prompt("Eliminar Archivo", "eliminar", eliminar_archivo)
+
+    def eliminar_directorio(self):
+        self.operation_prompt("Eliminar Directorio", "eliminar", eliminar_directorio)
+
+    def renombrar_archivo(self):
+        self.operation_prompt("Renombrar Archivo", "renombrar", renombrar_archivo)
+
+    def renombrar_directorio(self):
+        self.operation_prompt("Renombrar Directorio", "renombrar", renombrar_directorio)
+
+    def operation_prompt(self, title, permiso, func):
+        """Ventana de entrada para realizar una operación específica."""
+        if not verificar_permiso(self.rol_usuario, permiso):
+            messagebox.showerror("Permiso denegado", f"No tienes permiso para realizar esta acción: {title}")
             return
-        
-        if opcion == 1:
-            print ("Opción 1 seleccionada")
 
-            if verificar_permiso(rol,'crear'):
-                nombre_temporal=input("Ingrese el nombre del archivo: ")
-                ruta_temporal=input("Ingrese la ruta del archivo: ")
+        window = tk.Toplevel(self.root)
+        window.title(title)
+        window.geometry("400x200")
 
-                resultado=crear_archivo(nombre_temporal,ruta_temporal)
-                print(resultado)
+        tk.Label(window, text="Ingrese los detalles de la operación:").pack(pady=10)
+        ruta_origen_label = tk.Label(window, text="Ruta/Nombre (según operación):")
+        ruta_origen_label.pack(pady=5)
+        ruta_origen_entry = tk.Entry(window)
+        ruta_origen_entry.pack()
 
-            else:
-                print("no tiene permiso")
-            
-        elif opcion == 2:
+        tk.Label(window, text="Destino/Nuevo Nombre (si aplica):").pack(pady=5)
+        ruta_destino_entry = tk.Entry(window)
+        ruta_destino_entry.pack()
 
-            if verificar_permiso(rol,'crear'):
-                print ("Opción 2 seleccionada")
-                nombre_temporal = input("Escriba el nombre del nuevo directorio: ")
-                ruta_temporal = input("Escriba la ruta donde desea crear el directorio: ")
-                resultado=crear_directorio(nombre_temporal, ruta_temporal)  # Llamar a la función para crear el directorio
-                print(resultado)
+        def execute():
+            ruta_origen = ruta_origen_entry.get()
+            ruta_destino = ruta_destino_entry.get()
+            resultado = func(ruta_origen, ruta_destino)
+            messagebox.showinfo(title, f"Resultado: {resultado}")
+            window.destroy()
 
-            else:
-                print("no tiene permiso")
-    
-        elif opcion == 3:
-            print ("Opción 3 seleccionada")
+        tk.Button(window, text="Ejecutar", command=execute).pack(pady=10)
 
-            if verificar_permiso(rol,'listar'):
-                # nombre_temporal=input("Ingrese el nombre del directorio: ")
-                ruta_temporal=input("Ingrese la ruta del directorio: ")
-
-                arreglo_archivos=listar_archivos(ruta_temporal)
-                print(arreglo_archivos)
-            
-                
-        elif opcion== 4:
-
-            if verificar_permiso(rol,'listar'):
-                print("Opción 4 seleccionada")
-                ruta_temporal= input("Escriba la ruta en la que desea listar los directorios: ")
-                arreglo_directorios=listar_directorios(ruta_temporal)
-                print(arreglo_directorios)
+    def clear_frame(self):
+        """Limpia todos los widgets en la ventana principal."""
+        for widget in self.root.winfo_children():
+            widget.destroy()
 
 
-            
-
-        elif opcion == 5 or opcion== 6: 
-            
-
-            if verificar_permiso(rol, 'mover'):
-                if opcion == 5 :
-                    print ("Opción 5 seleccionada")
-                else:
-                    print ("Opción 6 seleccionada")
-
-                ruta_temporal1= input("Escriba la ruta del elemento que desea mover: ")
-                ruta_temporal2= input("Escriba la ruta final a la que desea mover el elemento: ")
-                resultado=mover_elemento(ruta_temporal1,ruta_temporal2)
-                print(resultado)
-
-
-            else:
-                print("no tiene permiso")
-                
-                
-        elif opcion == 7:
-            print ("Opción 7 seleccionada")
-
-            if verificar_permiso(rol,'eliminar'):
-                nombre_temporal=input("Ingrese el nombre del archivo: ")
-                ruta_temporal=input("Ingrese la ruta del archivo: ") 
-                resultado=eliminar_archivo(nombre_temporal,ruta_temporal)
-                print(resultado)
-
-            else:
-                print("no tiene permiso")
-
-        elif opcion == 8 :
-
-            if verificar_permiso(rol, 'eliminar'):
-
-                print("Opción 8 seleccionada")
-
-                nombre_temporal= input("Ingrese el nombre del directorio a eliminar: ")
-                ruta_temporal= input("ingrese la ruta del directorio que desea eliminar: ")
-                resultado=eliminar_directorio(nombre_temporal,ruta_temporal)
-                print(resultado)
-
-            else:
-                print("no tiene permiso")
-
-        elif opcion == 9:
-            print ("Opción 9 seleccionada")
-
-            if verificar_permiso(rol,'renombrar'):
-                nombre_temporal_actual=input("Ingrese el nombre del archivo: ")
-                nombre_temporal_nuevo=input("Ingrese el NUEVO nombre del archivo: ")
-                ruta_temporal=input("Ingrese la ruta del archivo: ") 
-
-                resultado=renombrar_archivo(nombre_temporal_actual,nombre_temporal_nuevo,ruta_temporal)
-                print(resultado)
-
-            else:
-                print("no tiene permiso")
-
-        elif opcion == 10:
-
-            if verificar_permiso(rol, 'renombrar'):
-                print("Opción 10 seleccionada")
-                nombre_actual=input("Ingrese el nombre actual del directorio: ")
-                nuevo_nombre= input("Ingrese el nombre que desea colocar al directorio: ")
-                ruta_temporal=input("Ingrese la ruta del directorio que desea modificar: ")
-                resultado=renombrar_directorio(nombre_actual,nuevo_nombre,ruta_temporal)
-                print(resultado)
-
-            else:
-                print ("no tiene permiso")
-                
-            
-
-        else:
-            print ("Opción no válida...Elija una nuevamente")
-
-if __name__ =="__main__":
-    main()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = FileManagementApp(root)
+    root.mainloop()
