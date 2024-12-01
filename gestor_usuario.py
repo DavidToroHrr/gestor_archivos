@@ -9,8 +9,6 @@ específicas y para cargar roles y permisos desde un archivo de configuración e
 Autores:
 - David Toro 
 - Thomas Toro 
-
-
 """
 
 import json
@@ -67,9 +65,9 @@ def crear_usuario(usuario, sistema):
         if sistema == "Windows":
             subprocess.run(["net", "user", usuario, "/add"], check=True)
             print(f"Usuario '{usuario}' creado correctamente en Windows.")
-        elif sistema == "Linux":
-            subprocess.run(["sudo", "useradd", usuario], check=True)
-            print(f"Usuario '{usuario}' creado correctamente en Linux.")
+        # elif sistema == "Linux":
+        #     subprocess.run(["sudo", "useradd", usuario], check=True)
+        #     print(f"Usuario '{usuario}' creado correctamente en Linux.")
         else:
             print("Sistema no soportado.")
     except subprocess.CalledProcessError as e:
@@ -81,9 +79,9 @@ def eliminar_usuario(usuario, sistema):
         if sistema == "Windows":
             subprocess.run(["net", "user", usuario, "/delete"], check=True)
             print(f"Usuario '{usuario}' eliminado correctamente en Windows.")
-        elif sistema == "Linux":
-            subprocess.run(["sudo", "userdel", usuario], check=True)
-            print(f"Usuario '{usuario}' eliminado correctamente en Linux.")
+        # elif sistema == "Linux":
+        #     subprocess.run(["sudo", "userdel", usuario], check=True)
+        #     print(f"Usuario '{usuario}' eliminado correctamente en Linux.")
         else:
             print("Sistema no soportado.")
     except subprocess.CalledProcessError as e:
@@ -95,9 +93,9 @@ def crear_grupo(grupo, sistema):
         if sistema == "Windows":
             subprocess.run(["net", "localgroup", grupo, "/add"], check=True)
             print(f"Grupo '{grupo}' creado correctamente en Windows.")
-        elif sistema == "Linux":
-            subprocess.run(["sudo", "groupadd", grupo], check=True)
-            print(f"Grupo '{grupo}' creado correctamente en Linux.")
+        # elif sistema == "Linux":
+        #     subprocess.run(["sudo", "groupadd", grupo], check=True)
+        #     print(f"Grupo '{grupo}' creado correctamente en Linux.")
         else:
             print("Sistema no soportado.")
     except subprocess.CalledProcessError as e:
@@ -109,10 +107,26 @@ def eliminar_grupo(grupo, sistema):
         if sistema == "Windows":
             subprocess.run(["net", "localgroup", grupo, "/delete"], check=True)
             print(f"Grupo '{grupo}' eliminado correctamente en Windows.")
-        elif sistema == "Linux":
-            subprocess.run(["sudo", "groupdel", grupo], check=True)
-            print(f"Grupo '{grupo}' eliminado correctamente en Linux.")
+        # elif sistema == "Linux":
+        #     subprocess.run(["sudo", "groupdel", grupo], check=True)
+        #     print(f"Grupo '{grupo}' eliminado correctamente en Linux.")
         else:
             print("Sistema no soportado.")
     except subprocess.CalledProcessError as e:
         print(f"Error al eliminar el grupo '{grupo}': {e.stderr}")
+
+
+def agregar_usuario_a_grupo_windows(usuario, grupo):
+    try:
+        subprocess.run(['net', 'localgroup', grupo, usuario, '/add'], check=True)
+        print(f"Usuario '{usuario}' agregado al grupo '{grupo}' correctamente en Windows.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error al agregar el usuario '{usuario}' al grupo '{grupo}': {e.stderr}")
+
+
+# def agregar_usuario_a_grupo_linux(usuario, grupo):
+#     try:
+#         subprocess.run(['sudo', 'usermod', '-aG', grupo, usuario], check=True)
+#         print(f"Usuario '{usuario}' agregado al grupo '{grupo}' correctamente en Linux.")
+#     except subprocess.CalledProcessError as e:
+#         print(f"Error al agregar el usuario '{usuario}' al grupo '{grupo}': {e.stderr}")
