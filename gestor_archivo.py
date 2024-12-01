@@ -136,7 +136,7 @@ def mover_elemento(origen, destino):
         print(f"Error al mover el elemento : {e}")
 
 # Listar archivos en un directorio
-def listar_archivos(ruta_base):
+def listar_archivos(ruta_base,Nulo):
     """
     Lista los archivos en una ruta especificada, en donde se realiza un filtrado especial para ver solamante los archivos
     en determinado directorio
@@ -180,7 +180,7 @@ def listar_archivos(ruta_base):
         return(f"Error al listar los archivos en '{ruta_base}': {e}")
 
 # Función para listar directorios
-def listar_directorios(ruta_base):
+def listar_directorios(ruta_base,Nulo):
 
     """
     Muestra los directorios presentes en una ruta especificada
@@ -290,7 +290,7 @@ def eliminar_directorio(nombre, ruta_base):
         return(f"Error al eliminar el directorio '{nombre}': {e}")
 
 # 8. Renombrar archivo
-def renombrar_archivo(nombre_actual,nuevo_nombre,ruta_base):
+def renombrar_archivo(nombre_actual,nuevo_nombre):
     """
     Renombra un archivo en una ruta especificada
     
@@ -316,20 +316,24 @@ def renombrar_archivo(nombre_actual,nuevo_nombre,ruta_base):
     - Si ocurre un error inesperado al intentar renombrar el archivo, devuelve el mensaje del error ocurrido.
 
     """
-    ruta_actual = os.path.join(ruta_base, nombre_actual)
-    nueva_ruta = os.path.join(ruta_base, nuevo_nombre)
+    
+    directorio_actual=os.path.dirname(nombre_actual)
+    directorio_actual_v2=os.path.dirname(nuevo_nombre)
 
-    if not validar_archivo_existe(ruta_actual):  
+    if not validar_directorio_existe(directorio_actual) and validar_directorio_existe(directorio_actual_v2):
+        return("Error, el directorio del archivo no existe")
+
+    if not validar_archivo_existe(nombre_actual):  
         return("Error, el archivo que buscas renombrar no existe")
-
+    
     try:
-        os.rename(ruta_actual, nueva_ruta)
+        os.rename(nombre_actual, nuevo_nombre)
         return(f"Archivo renombrado de '{nombre_actual}' a '{nuevo_nombre}'.")
     
     except FileNotFoundError:
         return(f"El archivo '{nombre_actual}' no existe.")
 
-def renombrar_directorio(nombre_actual, nuevo_nombre, ruta_base):
+def renombrar_directorio(nombre_actual, nuevo_nombre):
 
     """
     Renombra un directorio en la ruta especificada.
@@ -351,16 +355,15 @@ def renombrar_directorio(nombre_actual, nuevo_nombre, ruta_base):
     Si ocurre un error al renombrar, devuelve un mensaje detallado de lo que pasó.		
 		
     """
-    ruta_actual = os.path.join(ruta_base, nombre_actual)
-    nueva_ruta = os.path.join(ruta_base, nuevo_nombre)
-    
+    directorio_base=os.path.dirname(nuevo_nombre)
     # Verificar si el directorio existe
-    if not validar_directorio_existe(ruta_actual):
+    if not validar_directorio_existe(nombre_actual):
         return(f"El directorio '{nombre_actual}' no existe.")
-        
+    if not validar_directorio_existe(directorio_base):
+        return(f"El directorio del nuevo nombre no existe {directorio_base}")
     try:
         # Renombrar el directorio
-        os.rename(ruta_actual, nueva_ruta)
+        os.rename(nombre_actual, nuevo_nombre)
         return(f"Directorio renombrado de '{nombre_actual}' a '{nuevo_nombre}'.")
 
     except Exception as e:
