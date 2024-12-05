@@ -92,25 +92,3 @@ def eliminar_permisos(ruta, usuario_grupo):
     except Exception as e:
         return(f"Error al eliminar permisos: {e}")
 
-
-# Ejemplo de uso:
-# if __name__ == "__main__":
-#     print("Gestión de ACLs:")
-#     print("1. Mostrar ACLs")
-#     print("2. Asignar permisos")
-#     print("3. Eliminar permisos")
-#     opcion = input("Seleccione una opción (1/2/3): ")
-
-#     ruta = input("Ingrese la ruta del archivo o directorio: ")
-
-#     if opcion == '1':
-#         mostrar_acls(ruta)
-#     elif opcion == '2':
-#         usuario_grupo = input("Ingrese el usuario o grupo (formato: usuario o grupo:usuario): ")
-#         permisos = input("Ingrese los permisos (r, w, x o combinados como rwx): ")
-#         asignar_permisos(ruta, usuario_grupo, permisos)
-#     elif opcion == '3':
-#         usuario_grupo = input("Ingrese el usuario o grupo cuyo permiso desea eliminar: ")
-#         eliminar_permisos(ruta, usuario_grupo)
-#     else:
-#         print("Opción no válida.")
