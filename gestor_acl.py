@@ -47,6 +47,8 @@ def asignar_permiso(ruta, usuario_grupo, permiso):
         # Crear una nueva regla de acceso
         dacl.AddAccessAllowedAce(win32security.ACL_REVISION, permisos_bitmask, sid)
 
+        # dacl.DeleteAce()
+        
         # Aplicar la DACL modificada
         sd.SetSecurityDescriptorDacl(1, dacl, 0)
         win32security.SetFileSecurity(ruta, win32security.DACL_SECURITY_INFORMATION, sd)

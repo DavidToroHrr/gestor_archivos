@@ -193,7 +193,7 @@ if __name__ == "__main__":
     crear_grupo("Windows","Windows")
     crear_grupo("LosKapitos","Windows")
     agregar_usuario_a_grupo_windows("usuario1","Windows")
-
+    agregar_usuario_a_grupo_windows("usuario1","Loskapitos")
     mostrar_acls(r"C:\Users\david\OneDrive\Escritorio\hola.txt")
 
 
