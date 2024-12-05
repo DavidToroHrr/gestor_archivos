@@ -82,7 +82,7 @@ def eliminar_permisos(ruta, usuario_grupo):
             ace_sid = ace[2]
             # Copiar todas las reglas excepto las asociadas al usuario o grupo
             if ace_sid != sid:
-                nueva_dacl.AddAce(win32security.ACL_REVISION, i, ace)
+                nueva_dacl.AddAccessAllowedAce(win32security.ACL_REVISION, ace[1], ace_sid)
 
         # Aplicar la nueva DACL al archivo o directorio
         sd.SetSecurityDescriptorDacl(1, nueva_dacl, 0)
