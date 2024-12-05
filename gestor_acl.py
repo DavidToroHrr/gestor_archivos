@@ -32,6 +32,7 @@ def asignar_permiso(ruta, usuario_grupo, permiso):
         return (f"error, no se encuentra el usuario o grupo")
     try:
         # Mapear permiso a constante de Windows, obtenifos de ntsecuritycon
+        #asocia nombres de permisos con la API de seguridad de windows, son numbers
         permisos_map = {
             'read': con.FILE_GENERIC_READ,
             'write': con.FILE_GENERIC_WRITE,
@@ -39,13 +40,14 @@ def asignar_permiso(ruta, usuario_grupo, permiso):
         }
         
         # Validar el permiso , si está en el dict permisos_map
-        if permiso.lower() not in permisos_map:
+        if permiso.lower() not in permisos_map: #lo vuelve a minusculas
             raise ValueError(f"Permiso inválido: {permiso}. Use 'read', 'write' o 'execute'.")
 
         # Obtener la valor numérico de permiso correspondiente
         permisos_bitmask = permisos_map[permiso.lower()]
 
         # Obtener el descriptor de seguridad del archivo o directorio (que incluye la DACL).
+        #con permisos sobre un objeto
         sd = win32security.GetFileSecurity(ruta, win32security.DACL_SECURITY_INFORMATION)
 
         # Obtener la DACL actual , lo extrae del descriptor de seguridad, si no hay dacl la crea
@@ -63,6 +65,7 @@ def asignar_permiso(ruta, usuario_grupo, permiso):
         sd.SetSecurityDescriptorDacl(1, dacl, 0) #acrualiza el descriptor de seguridad con la dacl modificada
         win32security.SetFileSecurity(ruta, win32security.DACL_SECURITY_INFORMATION, sd) #aplica los cambios al archivo o dict
 
+        # archivo → descriptor de seguridad (SD) → DACL → ACE.
         return(f"Permiso '{permiso}' asignado a '{usuario_grupo}' en '{ruta}'.")
     except Exception as e:
         return(f"Error al asignar permiso: {e}")
@@ -98,7 +101,7 @@ def eliminar_permisos(ruta, usuario_grupo, permiso):
         # Obtener el descriptor de seguridad del archivo o directorio
         sd = win32security.GetFileSecurity(ruta, win32security.DACL_SECURITY_INFORMATION)
 
-        # Obtener la DACL actual
+        # Obtener la DACL del archivo deseado
         dacl = sd.GetSecurityDescriptorDacl() 
         if dacl is None:
             print(f"No hay permisos asignados en '{ruta}'.")
@@ -110,10 +113,16 @@ def eliminar_permisos(ruta, usuario_grupo, permiso):
         # Crear una nueva DACL, inicialmente vacía
         nueva_dacl = win32security.ACL()
 
-        # Recorrer las ACEs actuales en la DACL
+        """
+        ace[0]:Tipo de ACE (permiso)
+        ace[1]:Los permisos asignado
+        ace[2]:El SID security identifier del usuario o grupo que tiene estos permisos
+        """
+        # Recorrer las ACEs actuales en la DACL del archivo
         for i in range(dacl.GetAceCount()):
-            ace = dacl.GetAce(i)  # Obtener la ACE actual
-            ace_sid = ace[2]  # Obtener el SID de la ACE actual
+            ace = dacl.GetAce(i)  # Obtener la ACE actual del archivo
+            ace_sid = ace[2]  #Obtener el SID de la ACE actual, queremos buscar sid de usarios
+                              #dentro del elemento para modificarles los permisos
 
             # Si no corresponde al SID del usuario o grupo, se agrega la ACE
             if ace_sid != sid:
@@ -122,6 +131,7 @@ def eliminar_permisos(ruta, usuario_grupo, permiso):
                 # Si es la ACE del usuario o grupo, verificamos si tiene el permiso que queremos eliminar
                 if (ace[1] & permisos_bitmask) != 0:  # Verificar si el permiso específico está presente
                     # Si el permiso está presente, no agregamos la ACE (la eliminamos)
+                    #comparamos bit a bit con la mascara que la vuelve bits
                     continue
                 else:
                     # Si el permiso no está presente, lo agregamos sin modificarlo
