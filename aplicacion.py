@@ -59,7 +59,7 @@ class FileManagementApp:
             ("Renombrar Archivos", self.renombrar_archivo),
             ("Renombrar Directorios", self.renombrar_directorio),
             ("Mostrar ACLs", self.mostrar_acls),
-            ("Agregar permisos (usuaio o grupo)", self.asignar_permisos_acls),
+            ("Agregar permisos (usuario o grupo)", self.asignar_permisos_acls),
             ("Eliminar permisos (capeta,directorio, usuario o grupo)",self.eliminar_permisos_acls)
         ]
 
