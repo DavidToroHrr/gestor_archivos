@@ -10,7 +10,7 @@ Autores:
 - David Toro 
 - Thomas Toro 
 """
-
+import win32security
 import json
 import subprocess
 
@@ -124,9 +124,20 @@ def agregar_usuario_a_grupo_windows(usuario, grupo):
         print(f"Error al agregar el usuario '{usuario}' al grupo '{grupo}': {e.stderr}")
 
 
-# def agregar_usuario_a_grupo_linux(usuario, grupo):
-#     try:
-#         subprocess.run(['sudo', 'usermod', '-aG', grupo, usuario], check=True)
-#         print(f"Usuario '{usuario}' agregado al grupo '{grupo}' correctamente en Linux.")
-#     except subprocess.CalledProcessError as e:
-#         print(f"Error al agregar el usuario '{usuario}' al grupo '{grupo}': {e.stderr}")
+
+def validar_usuario_grupo(usuario_grupo):
+    """
+    Verifica si un usuario o grupo existe en el sistema.
+
+    :param nombre: Nombre del usuario o grupo a validar.
+    :return: True si el usuario o grupo existe, False en caso contrario.
+    """
+    try:
+        # Intenta resolver el nombre a un SID
+        win32security.LookupAccountName(None, usuario_grupo)
+        return True
+    except win32security.error as e:
+        if e.winerror == 1332:  # ERROR_NONE_MAPPED
+            return False
+        raise e 
+
